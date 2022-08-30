@@ -1,0 +1,64 @@
+#!/usr/bin/lua
+
+local uci = require('simple-uci').cursor()
+local site = require "gluon.site"
+
+uci:section('network', 'interface', 'wan', {
+	ifname = 'eth0',
+	disabled = '0',
+})
+
+uci:section('network', 'interface', 'client', {
+	ifname = 'eth0.13',
+	disabled = '0',
+})
+
+uci:section('network', 'interface', 'mesh_lan', {
+	ifname = 'eth1.1001',
+	disabled = '0',
+})
+
+uci:section('network', 'interface', 'mesh_lan_2', {
+	igmp_snooping = '0',
+	ifname = 'eth1.1002',
+	index = '1',
+	vxlan = '1',
+	proto = 'gluon_wired',
+	disabled = '0',
+	transitive = '1',
+})
+
+uci:section('network', 'interface', 'mesh_lan_3', {
+	igmp_snooping = '0',
+	ifname = 'eth1.1003',
+	index = '2',
+	vxlan = '1',
+	proto = 'gluon_wired',
+	disabled = '0',
+	transitive = '1',
+})
+
+uci:section('network', 'interface', 'mesh_lan_4', {
+	igmp_snooping = '0',
+	ifname = 'eth1.1004',
+	index = '5',
+	vxlan = '1',
+	proto = 'gluon_wired',
+	disabled = '0',
+	transitive = '1',
+})
+
+uci:section('network', 'interface', 'mesh_lan_5', {
+	igmp_snooping = '0',
+	ifname = 'eth1.1005',
+	index = '6',
+	vxlan = '1',
+	proto = 'gluon_wired',
+	disabled = '0',
+	transitive = '1',
+})
+
+uci:set('firewall', 'wired_mesh', 'network', { 'mesh_lan', 'mesh_lan_2', 'mesh_lan_3', 'mesh_lan_4', 'mesh_lan_5' })
+
+uci:commit('network')
+uci:commit('firewall')
